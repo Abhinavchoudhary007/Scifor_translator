@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation App</title>
+    <style>
+        body {
+            background-color: white; /* Change background color to white */
+
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        div {
+            margin: 0 auto;
+            width: 80%; /* Adjust width as necessary */
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Translation App</h1>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

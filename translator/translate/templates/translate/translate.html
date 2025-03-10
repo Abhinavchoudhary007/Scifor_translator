@@ -1,0 +1,164 @@
+{% extends 'translate/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="title">Translate Text</h2>
+        <form method="post" class="translation-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Translate</button>
+        </form>
+
+        <div class="results-container">
+            {% if translation %}
+                <div class="translation-result">
+                    <h3>Translation:</h3>
+                    <p class="result-text">{{ translation }}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="history-container">
+            <h3 class="history-title">Translation History</h3>
+            <ul class="history-list">
+                {% for item in history %}
+                    <li class="history-item">
+                        <span class="original-text">{{ item.original_text }}</span> -> 
+                        <span class="translated-text">{{ item.translated_text }}</span> 
+                        <span class="language">({{ item.language }})</span>
+                        <form method="post" action="{% url 'delete_translation' item.id %}" class="delete-form" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn delete-btn">Delete</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f4c3, #a5d6a7);
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            text-align: center;
+            color: #4caf50;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .translation-form {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .translation-form input, .translation-form select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            font-size: 20px; /* Increased font size */
+            transition: border-color 0.3s;
+        }
+
+        .translation-form input:focus, .translation-form select:focus {
+            border-color: #1976d2;
+            outline: none;
+        }
+
+        .btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 20px; /* Increased font size */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #388e3c;
+            transform: scale(1.05);
+        }
+
+        .results-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .translation-result {
+            flex: 1;
+            margin-right: 20px;
+            padding: 10px;
+            background-color: #e1f5fe;
+            border-radius: 5px;
+            border-left: 5px solid #2196f3;
+        }
+
+        .result-text {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .history-container {
+            flex: 1;
+        }
+
+        .history-title {
+            margin-top: 30px;
+            color: #4caf50;
+            border-bottom: 2px solid #4caf50;
+            padding-bottom: 5px;
+        }
+
+        .history-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9fbe7;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .history-item:hover {
+            background-color: #e6ee9c;
+        }
+
+        .original-text, .translated-text, .language {
+            margin-right: 10px;
+            color: #333;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+{% endblock %}
